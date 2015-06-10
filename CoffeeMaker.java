@@ -1,6 +1,3 @@
-import org.junit.Test;
-import org.mockito.Mockito;
-
 //package com.laboon;
 
 public class CoffeeMaker {
@@ -33,9 +30,5 @@ public class CoffeeMaker {
 		System.out.println("Exiting with error code " + returnValue);
 	}
 	
-	@Test
-	public void foo(){
-		Mockito.mock(Room.class);
-	}
 
 }
