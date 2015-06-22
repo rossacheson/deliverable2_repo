@@ -71,7 +71,7 @@ public class GameTest {
 	
 	//doSomething should return 0 unless 
 		@Test
-		public void testLoseGame(){
+		public void testDoLoseGame(){
 			House mockHouse = Mockito.mock(House.class);
 			Player mockPlayer = Mockito.mock(Player.class);
 			Game g = new Game(mockPlayer, mockHouse);
@@ -81,13 +81,37 @@ public class GameTest {
 		}
 		
 		@Test
-		public void testWinGame(){
+		public void testDoWinGame(){
 			House mockHouse = Mockito.mock(House.class);
 			Player mockPlayer = Mockito.mock(Player.class);
 			Game g = new Game(mockPlayer, mockHouse);
 			Mockito.when(mockPlayer.drink()).thenReturn(true);
 			int returnVal = g.doSomething("D");
 			assertEquals(returnVal, 1);
+		}
+		
+		//run
+		//
+		@Test
+		public void testRunLoseGame(){ 
+			House mockHouse = Mockito.mock(House.class);
+			Player mockPlayer = Mockito.mock(Player.class);
+			Game g = new Game(mockPlayer, mockHouse);
+			Mockito.when(mockPlayer.drink()).thenReturn(false);
+			int returnVal = g.run();
+			g.doSomething("D");
+			assertEquals(returnVal, 1);
+		}
+		
+		@Test
+		public void testRunWinGame(){ //change method content
+			House mockHouse = Mockito.mock(House.class);
+			Player mockPlayer = Mockito.mock(Player.class);
+			Game g = new Game(mockPlayer, mockHouse);
+			Mockito.when(mockPlayer.drink()).thenReturn(true);
+			int returnVal = g.run();
+			g.doSomething("D");
+			assertEquals(returnVal, 0);
 		}
 		
 

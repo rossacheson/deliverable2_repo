@@ -16,5 +16,16 @@ public class HouseTest {
 		String result = h.getCurrentRoomInfo();
 		assertEquals(result, "TEST");
 	}
+	
+	@Test
+	public void testNonRoom() {
+		Room r = mock(Room.class);
+		Room[] rooms = new Room[1];
+		rooms[0] = r;
+		House h = new House(rooms); //real house with fake rooms
+		h.moveSouth();
+		String result = h.getCurrentRoomInfo();
+		assertTrue(result.contains("error")); //there should be an error message
+	}
 
 }
