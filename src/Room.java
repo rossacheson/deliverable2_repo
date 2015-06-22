@@ -1,5 +1,3 @@
-package com.laboon;
-
 public class Room {
 
 	private static int _pseudoRand = 0;

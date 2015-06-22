@@ -1,5 +1,3 @@
-package com.laboon;
-
 public class CoffeeMaker {
 
 	private int runGameLoop(Player p, House h, Game g) {

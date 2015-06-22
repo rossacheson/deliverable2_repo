@@ -1,5 +1,3 @@
-package com.laboon;
-
 public class House {
 
 	private int _numRooms = 6;

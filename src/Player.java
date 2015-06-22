@@ -1,5 +1,3 @@
-package com.laboon;
-
 public class Player {
 
 	private boolean _hasSugar = false;
@@ -13,7 +11,7 @@ public class Player {
 	public Player(boolean sugar, boolean cream, boolean coffee) {
 		_hasSugar = sugar;
 		_hasCream = cream;
-		_hasCoffee = coffee;
+		_hasCoffee = coffee; 
 	}
 	
 	public void getSugar() {
