@@ -9,7 +9,6 @@ import java.io.ByteArrayInputStream;
 import org.junit.*;
 import org.mockito.Mockito;
 
-import junit.framework.TestCase;
 
 public class Tests {
 
@@ -19,7 +18,8 @@ public class Tests {
 	@Test
 	public void testRunArgs() {
 		CoffeeMaker cm = new CoffeeMaker();
-		int returnVal = cm.runArgs("Hi"); // argument doesn't matter, any string value will do
+		int returnVal = cm.runArgs("Hi"); // argument doesn't matter, any string
+											// value will do
 		assertEquals(returnVal, 0);
 	}
 
@@ -110,34 +110,33 @@ public class Tests {
 	}
 
 	// the next two tests test the run() method
-	//
+	// run should return 1 after drinking inadvisably
 	@Test
 	public void testRunLoseGame() {
 		House mockHouse = Mockito.mock(House.class);
 		Player mockPlayer = Mockito.mock(Player.class);
 		Game g = new Game(mockPlayer, mockHouse);
-		Mockito.when(mockPlayer.drink()).thenReturn(false);
-		ByteArrayInputStream in = new ByteArrayInputStream("D".getBytes());
-		System.setIn(in);
-		int returnVal = g.run();
+		Mockito.when(mockPlayer.drink()).thenReturn(false); // lose
 		ByteArrayInputStream in1 = new ByteArrayInputStream("D".getBytes());
 		System.setIn(in1);
+		int returnVal = g.run();
 		assertEquals(returnVal, 1);
 	}
 
+	// run should return 0 after drinking wisely
 	@Test
-	public void testRunWinGame() { // change method content
+	public void testRunWinGame() {
 		House mockHouse = Mockito.mock(House.class);
 		Player mockPlayer = Mockito.mock(Player.class);
 		Game g = new Game(mockPlayer, mockHouse);
-		Mockito.when(mockPlayer.drink()).thenReturn(true);
+		Mockito.when(mockPlayer.drink()).thenReturn(true); // win
 		ByteArrayInputStream in2 = new ByteArrayInputStream("D".getBytes());
 		System.setIn(in2);
 		int returnVal = g.run();
 		assertEquals(returnVal, 0);
 	}
 
-	// doSomething should return 0 unless
+	// doSomething should return -1 when drink method returns false
 	@Test
 	public void testDoSomething() {
 		House mockHouse = Mockito.mock(House.class);
@@ -186,8 +185,6 @@ public class Tests {
 		Room[] result = h.generateRooms(3); // should return an array of 3 rooms
 		assertEquals(3, result.length);
 	}
-
-	// Rebecca's Tests *********************************** Rebecca's Tests
 
 	// **** Room class tests ****
 
