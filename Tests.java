@@ -9,7 +9,6 @@ import java.io.ByteArrayInputStream;
 import org.junit.*;
 import org.mockito.Mockito;
 
-
 public class Tests {
 
 	// **** CoffeeMaker class test ****
@@ -212,7 +211,8 @@ public class Tests {
 		assertFalse(room.hasCoffee());
 	}
 
-	// Test hasItem()
+	// The next three tests test the hasItem() method
+
 	// hasItem() should return false when there's nothing in the room
 	@Test
 	public void testHasItem_None() {
@@ -220,7 +220,6 @@ public class Tests {
 		assertFalse(room.hasItem());
 	}
 
-	// Test hasItem()
 	// hasItem() should return true when all the three ingredients are in the
 	// room
 	@Test
@@ -229,7 +228,6 @@ public class Tests {
 		assertTrue(room.hasItem());
 	}
 
-	// Test hasItem()
 	// hasItem() should return true when there's only one item in the room,
 	// let's say, Sugar
 	@Test
@@ -247,6 +245,7 @@ public class Tests {
 	}
 
 	// Test southExit()
+	// southExit() should return true when there exists a south exit
 	@Test
 	public void testSouthExit() {
 		Room room = new Room(false, false, false, true, true);
@@ -254,7 +253,7 @@ public class Tests {
 	}
 
 	// Test getDescription()
-	// This will eventually check the descriptions
+	// This check the general description of a room with a door leading South
 	@Test
 	public void testGetDescription_southExit() {
 		Room room = new Room(false, false, false, false, true);
