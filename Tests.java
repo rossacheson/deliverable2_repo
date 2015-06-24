@@ -4,6 +4,8 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.ByteArrayInputStream;
+
 import org.junit.*;
 import org.mockito.Mockito;
 
@@ -17,8 +19,7 @@ public class Tests {
 	@Test
 	public void testRunArgs() {
 		CoffeeMaker cm = new CoffeeMaker();
-		int returnVal = cm.runArgs("Hi"); // argument doesn't matter, any string
-											// value will do
+		int returnVal = cm.runArgs("Hi"); // argument doesn't matter, any string value will do
 		assertEquals(returnVal, 0);
 	}
 
@@ -36,11 +37,12 @@ public class Tests {
 		// execution step
 		int result = g.doSomething("N");
 		// assertions
-		verify(h).moveNorth(); // OR verify(h, times(1)).moveNorth();
+		verify(h).moveNorth();
 		verify(h, never()).moveSouth();
 		assertEquals(result, 0);
 	}
 
+	// make sure moveSouth is called and 0 is returned so the game continues
 	@Test
 	public void testMoveSouth() {
 		// preconditions
@@ -50,11 +52,12 @@ public class Tests {
 		// execution step
 		int result = g.doSomething("S");
 		// assertions
-		verify(h).moveSouth(); // OR verify(h, times(1)).moveNorth();
+		verify(h).moveSouth();
 		verify(h, never()).moveNorth();
 		assertEquals(result, 0);
 	}
 
+	// make sure look is called and 0 is returned so the game continues
 	@Test
 	public void testLook() {
 		// preconditions
@@ -68,6 +71,7 @@ public class Tests {
 		assertEquals(result, 0);
 	}
 
+	// make sure inventory is called and 0 is returned so the game continues
 	@Test
 	public void testInventory() {
 		// preconditions
@@ -83,7 +87,7 @@ public class Tests {
 		assertEquals(result, 0);
 	}
 
-	// add explanatory comment
+	// make sure -1 is returned when drinking inadvisably
 	@Test
 	public void testDoLoseGame() {
 		House mockHouse = Mockito.mock(House.class);
@@ -94,6 +98,7 @@ public class Tests {
 		assertEquals(returnVal, -1);
 	}
 
+	// make sure 1 is returned when drinking wisely
 	@Test
 	public void testDoWinGame() {
 		House mockHouse = Mockito.mock(House.class);
@@ -112,8 +117,11 @@ public class Tests {
 		Player mockPlayer = Mockito.mock(Player.class);
 		Game g = new Game(mockPlayer, mockHouse);
 		Mockito.when(mockPlayer.drink()).thenReturn(false);
+		ByteArrayInputStream in = new ByteArrayInputStream("D".getBytes());
+		System.setIn(in);
 		int returnVal = g.run();
-		g.doSomething("D");
+		ByteArrayInputStream in1 = new ByteArrayInputStream("D".getBytes());
+		System.setIn(in1);
 		assertEquals(returnVal, 1);
 	}
 
@@ -123,8 +131,9 @@ public class Tests {
 		Player mockPlayer = Mockito.mock(Player.class);
 		Game g = new Game(mockPlayer, mockHouse);
 		Mockito.when(mockPlayer.drink()).thenReturn(true);
+		ByteArrayInputStream in2 = new ByteArrayInputStream("D".getBytes());
+		System.setIn(in2);
 		int returnVal = g.run();
-		g.doSomething("D");
 		assertEquals(returnVal, 0);
 	}
 
@@ -141,12 +150,11 @@ public class Tests {
 
 	// **** House class tests ****
 
-	// This will check descriptions
+	// This will check that getCurrentRoomInfo()
 	@Test
 	public void testGetDescription() {
 		Room r = mock(Room.class);
 		when(r.getDescription()).thenReturn("TEST"); // stub of relevant method
-														// from Room
 		Room[] rooms = new Room[1];
 		rooms[0] = r;
 		House h = new House(rooms); // real house with fake rooms
@@ -154,6 +162,9 @@ public class Tests {
 		assertEquals(result, "TEST");
 	}
 
+	// Testing behavior when the player moves South with no door/room south.
+	// There should be an error message, but there is a magical land instead, so
+	// test fails. Changing "error" to "magical" below makes it pass.
 	@Test
 	public void testNonRoom() {
 		Room r = mock(Room.class);
@@ -162,21 +173,19 @@ public class Tests {
 		House h = new House(rooms); // real house with fake rooms
 		h.moveSouth();
 		String result = h.getCurrentRoomInfo();
-		assertTrue(result.contains("error")); // there should be an error
-												// message
+		assertTrue(result.contains("error"));
 	}
 
-	// generateRooms()
-//	@Test
-//	public void testGenerateRooms() {
-//		Room r = mock(Room.class);
-//		Room[] rooms = new Room[1];
-//		rooms[0] = r;
-//		House h = new House(rooms); // real house with fake rooms
-//		Room[] result = h.generateRooms(3);
-//		// assertArrayEquals(result, result);
-//		assertThat(result[2]);
-//	}
+	// test generateRooms(), ensuring we get a room array of the right length
+	@Test
+	public void testGenerateRooms() {
+		Room r = mock(Room.class);
+		Room[] rooms = new Room[1];
+		rooms[0] = r;
+		House h = new House(rooms); // real house with fake rooms
+		Room[] result = h.generateRooms(3); // should return an array of 3 rooms
+		assertEquals(3, result.length);
+	}
 
 	// Rebecca's Tests *********************************** Rebecca's Tests
 
@@ -314,17 +323,5 @@ public class Tests {
 		Player player = new Player(true, true, true);
 		assertTrue(player.drink());
 	}
-
-	// Test for House
-
-	// This tests the generateRooms method
-	// @Test
-	// public void testGenerateRooms(){
-	// House h = new House(7);
-	// String result = h.getCurrentRoomInfo();
-	// verify(h, times(1)).generateRooms(7);
-	// //assertTrue(result.contains("You see a"));
-	// }
-	//
 
 }
